@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ledger — Personal Finance Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== Header ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">₹</span>
+      <span class="brand-name">Ledger</span>
+    </div>
+    <div class="month-nav">
+      <button id="prevMonth" class="icon-btn" aria-label="Previous month">‹</button>
+      <span id="currentMonthLabel" class="month-label">July 2026</span>
+      <button id="nextMonth" class="icon-btn" aria-label="Next month">›</button>
+    </div>
+  </header>
+
+  <!-- ===== Summary cards ===== -->
+  <section class="summary-row">
+    <div class="summary-card income">
+      <span class="summary-label">Income</span>
+      <span class="summary-value" id="totalIncome">₹0.00</span>
+    </div>
+    <div class="summary-card expense">
+      <span class="summary-label">Expenses</span>
+      <span class="summary-value" id="totalExpense">₹0.00</span>
+    </div>
+    <div class="summary-card balance">
+      <span class="summary-label">Balance</span>
+      <span class="summary-value" id="totalBalance">₹0.00</span>
+    </div>
+  </section>
+
+  <main class="main-grid">
+
+    <!-- ===== Left column: forms + budgets ===== -->
+    <div class="left-col">
+
+      <section class="panel">
+        <h2 class="panel-title">Add a transaction</h2>
+        <form id="transactionForm" class="tx-form">
+          <div class="field-row">
+            <label class="type-toggle">
+              <input type="radio" name="type" value="EXPENSE" checked />
+              <span>Expense</span>
+            </label>
+            <label class="type-toggle">
+              <input type="radio" name="type" value="INCOME" />
+              <span>Income</span>
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label">Description</span>
+            <input type="text" id="txDescription" placeholder="e.g. Weekly groceries" required />
+          </label>
+
+          <div class="field-pair">
+            <label class="field">
+              <span class="field-label">Amount</span>
+              <input type="number" id="txAmount" step="0.01" min="0.01" placeholder="0.00" required />
+            </label>
+            <label class="field">
+              <span class="field-label">Date</span>
+              <input type="date" id="txDate" required />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label">Category</span>
+            <select id="txCategory" required></select>
+          </label>
+
+          <button type="submit" class="btn-primary">Add transaction</button>
+          <p class="form-error" id="txFormError"></p>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title">Budgets this month</h2>
+        <div id="budgetList" class="budget-list">
+          <p class="empty-hint">No budgets set for this month yet.</p>
+        </div>
+
+        <details class="add-budget-details">
+          <summary>Set a category budget</summary>
+          <form id="budgetForm" class="budget-form">
+            <label class="field">
+              <span class="field-label">Category</span>
+              <select id="budgetCategory" required></select>
+            </label>
+            <label class="field">
+              <span class="field-label">Monthly limit</span>
+              <input type="number" id="budgetLimit" step="0.01" min="0.01" placeholder="0.00" required />
+            </label>
+            <button type="submit" class="btn-secondary">Save budget</button>
+          </form>
+        </details>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title">Categories</h2>
+        <div id="categoryChips" class="category-chips"></div>
+        <details class="add-budget-details">
+          <summary>Add a category</summary>
+          <form id="categoryForm" class="budget-form">
+            <label class="field">
+              <span class="field-label">Name</span>
+              <input type="text" id="categoryName" placeholder="e.g. Subscriptions" required />
+            </label>
+            <label class="field">
+              <span class="field-label">Type</span>
+              <select id="categoryType" required>
+                <option value="EXPENSE">Expense</option>
+                <option value="INCOME">Income</option>
+              </select>
+            </label>
+            <button type="submit" class="btn-secondary">Add category</button>
+          </form>
+        </details>
+      </section>
+
+    </div>
+
+    <!-- ===== Right column: receipt tape ===== -->
+    <div class="right-col">
+      <section class="panel receipt-panel">
+        <h2 class="panel-title">Transactions</h2>
+        <div class="receipt-wrap">
+          <div class="receipt-tape" id="receiptTape">
+            <!-- transaction rows injected here -->
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
