@@ -177,6 +177,21 @@ body {
   box-shadow: var(--shadow);
 }
 
+.welcome-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: #f0f4ff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  animation: fadeIn 0.6s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .panel-title {
   font-family: var(--font-display);
   font-size: 18px;

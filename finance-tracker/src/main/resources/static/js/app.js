@@ -47,6 +47,26 @@ function formatCurrency(amount) {
   return '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+async function loadUser() {
+  try {
+    const res = await fetch('/api/me');
+    const user = await res.json();
+
+    if (user.authenticated) {
+      const banner = document.getElementById('welcome-banner');
+      if (banner) {
+        banner.innerHTML = `
+          <img src="${user.picture}" alt="profile" style="width:40px;height:40px;border-radius:50%;">
+          <span>Welcome back, ${user.name} 👋</span>
+        `;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load user info', err);
+  }
+}
+loadUser();
+
 function formatShortDate(isoDate) {
   const [y, m, d] = isoDate.split('-').map(Number);
   const date = new Date(y, m - 1, d);
@@ -78,10 +98,10 @@ function renderMonthLabel() {
 
 function renderCategoryOptions() {
   const buildOptions = (type) =>
-    state.categories
-      .filter((c) => c.type === type)
-      .map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`)
-      .join('');
+      state.categories
+          .filter((c) => c.type === type)
+          .map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`)
+          .join('');
 
   const expenseOptions = buildOptions('EXPENSE');
   const incomeOptions = buildOptions('INCOME');
@@ -100,14 +120,14 @@ function renderCategoryChips() {
     return;
   }
   els.categoryChips.innerHTML = state.categories
-    .map(
-      (c) => `
+      .map(
+          (c) => `
       <span class="chip ${c.type === 'INCOME' ? 'income' : ''}" data-id="${c.id}">
         ${escapeHtml(c.name)}
         <span class="chip-remove" data-id="${c.id}" title="Delete category">&times;</span>
       </span>`
-    )
-    .join('');
+      )
+      .join('');
 
   els.categoryChips.querySelectorAll('.chip-remove').forEach((el) => {
     el.addEventListener('click', async () => {
@@ -135,9 +155,9 @@ function renderSummary(summary) {
   }
 
   els.budgetList.innerHTML = summary.budgetStatuses
-    .map((b) => {
-      const pct = Math.min(100, b.percentUsed);
-      return `
+      .map((b) => {
+        const pct = Math.min(100, b.percentUsed);
+        return `
       <div class="budget-item ${b.overBudget ? 'over' : ''}">
         <div class="budget-head">
           <span class="budget-name">${escapeHtml(b.categoryName)}</span>
@@ -147,8 +167,8 @@ function renderSummary(summary) {
           <div class="budget-fill" style="width:${pct}%"></div>
         </div>
       </div>`;
-    })
-    .join('');
+      })
+      .join('');
 }
 
 function renderTransactions(transactions) {
@@ -158,10 +178,10 @@ function renderTransactions(transactions) {
   }
 
   els.receiptTape.innerHTML = transactions
-    .map((t) => {
-      const sign = t.type === 'INCOME' ? '+' : '−';
-      const categoryName = t.category ? escapeHtml(t.category.name) : 'Uncategorized';
-      return `
+      .map((t) => {
+        const sign = t.type === 'INCOME' ? '+' : '−';
+        const categoryName = t.category ? escapeHtml(t.category.name) : 'Uncategorized';
+        return `
       <div class="receipt-row">
         <span class="receipt-date">${formatShortDate(t.date)}</span>
         <span class="receipt-desc" title="${escapeHtml(t.description)}">${escapeHtml(t.description)}</span>
@@ -169,8 +189,8 @@ function renderTransactions(transactions) {
         <span class="receipt-amount ${t.type.toLowerCase()}">${sign} ${formatCurrency(t.amount)}</span>
         <span class="receipt-delete"><button data-id="${t.id}">remove</button></span>
       </div>`;
-    })
-    .join('');
+      })
+      .join('');
 
   els.receiptTape.querySelectorAll('.receipt-delete button').forEach((btn) => {
     btn.addEventListener('click', async () => {
@@ -296,6 +316,6 @@ els.categoryForm.addEventListener('submit', async (e) => {
     await refreshAll();
   } catch (err) {
     console.error(err);
-    els.receiptTape.innerHTML = `<p class="receipt-empty">Could not reach the server.<br/>Is the backend running on port 8080?</p>`;
+    els.receiptTape.innerHTML = `<p class="receipt-empty">Could not load your data.<br/>Try signing in again, or refresh the page.</p>`;
   }
 })();
