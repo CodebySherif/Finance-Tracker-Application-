@@ -47,26 +47,6 @@ function formatCurrency(amount) {
   return '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-async function loadUser() {
-  try {
-    const res = await fetch('/api/me');
-    const user = await res.json();
-
-    if (user.authenticated) {
-      const banner = document.getElementById('welcome-banner');
-      if (banner) {
-        banner.innerHTML = `
-          <img src="${user.picture}" alt="profile" style="width:40px;height:40px;border-radius:50%;">
-          <span>Welcome back, ${user.name} 👋</span>
-        `;
-      }
-    }
-  } catch (err) {
-    console.error('Failed to load user info', err);
-  }
-}
-loadUser();
-
 function formatShortDate(isoDate) {
   const [y, m, d] = isoDate.split('-').map(Number);
   const date = new Date(y, m - 1, d);
@@ -316,6 +296,6 @@ els.categoryForm.addEventListener('submit', async (e) => {
     await refreshAll();
   } catch (err) {
     console.error(err);
-    els.receiptTape.innerHTML = `<p class="receipt-empty">Could not load your data.<br/>Try signing in again, or refresh the page.</p>`;
+    els.receiptTape.innerHTML = `<p class="receipt-empty">Could not reach the server.<br/>Is the backend running on port 8080?</p>`;
   }
 })();
