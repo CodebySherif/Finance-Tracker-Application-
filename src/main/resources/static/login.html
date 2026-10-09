@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ledger — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="auth-shell">
+  <div class="auth-card glass">
+
+    <div class="auth-brand">
+      <span class="brand-mark">₹</span>
+      <span class="brand-name">Ledger</span>
+    </div>
+
+    <!-- ===== Login form ===== -->
+    <div id="loginView">
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-subtitle">Sign in to see your dashboard</p>
+
+      <form id="loginForm" class="auth-form">
+        <label class="field">
+          <span class="field-label">Username</span>
+          <input type="text" id="loginUsername" placeholder="yourname" required autocomplete="username" />
+        </label>
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password" />
+        </label>
+        <button type="submit" class="btn-primary">Sign in</button>
+        <p class="form-error" id="loginError"></p>
+      </form>
+
+      <div id="googleBlock" style="display:none;">
+        <p class="auth-divider"><span>or</span></p>
+        <a href="/oauth2/authorization/google" class="btn-google">Continue with Google</a>
+      </div>
+
+      <p class="auth-switch">
+        New here? <button type="button" id="showRegister">Create an account</button>
+      </p>
+    </div>
+
+    <!-- ===== Register form ===== -->
+    <div id="registerView" style="display:none;">
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-subtitle">Start tracking income and expenses</p>
+
+      <form id="registerForm" class="auth-form">
+        <label class="field">
+          <span class="field-label">Username</span>
+          <input type="text" id="registerUsername" placeholder="yourname" required minlength="3" maxlength="30" autocomplete="username" />
+        </label>
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input type="email" id="registerEmail" placeholder="you@example.com" required autocomplete="email" />
+        </label>
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input type="password" id="registerPassword" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password" />
+        </label>
+        <button type="submit" class="btn-primary">Create account</button>
+        <p class="form-error" id="registerError"></p>
+      </form>
+
+      <p class="auth-switch">
+        Already have an account? <button type="button" id="showLogin">Sign in</button>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+</body>
+</html>
